@@ -1,0 +1,50 @@
+# Entorno virtual
+.venv/
+
+# Archivos de caché y compilación de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# Archivos de depuración y log
+*.log
+.coverage
+.pytest_cache/
+.DS_Store
+
+# Archivos de la configuración de VSC
+.vscode/
+
+# Archivos de la interfaz gráfica (si se generan)
+*.ui
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# Virtual env
+.venv/
+env/
+venv/
+
+# Logs
+logs/
+*.log
+
+# Data
+data/inputs/*
+data/outputs/*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
