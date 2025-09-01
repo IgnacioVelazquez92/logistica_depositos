@@ -1,4 +1,5 @@
--- schema.sql
+-- db/schema.sql  (REEMPLAZAR COMPLETO POR ESTE)
+
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS locations (
@@ -71,3 +72,33 @@ CREATE TABLE IF NOT EXISTS movements (
 
 CREATE INDEX IF NOT EXISTS idx_stock_item_loc ON stock(item_id, location_id, fecha_venc);
 CREATE INDEX IF NOT EXISTS idx_items_ean_codigo ON items(ean, codigo);
+
+-- Índices útiles para lotes (MIN/MAX/ SUM por lote)
+CREATE INDEX IF NOT EXISTS idx_movements_lote_ts
+ON movements(item_id, location_id, fecha_venc, ts);
+
+CREATE INDEX IF NOT EXISTS idx_movements_tipo
+ON movements(tipo);
+
+-- =========================
+--  VENTAS [NUEVO]
+-- =========================
+
+CREATE TABLE IF NOT EXISTS sales_imports (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT,
+    fecha_import DATETIME DEFAULT CURRENT_TIMESTAMP,
+    archivo_hash TEXT UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS sales (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    import_id INTEGER REFERENCES sales_imports(id),
+    location_id INTEGER REFERENCES locations(id),
+    item_id INTEGER REFERENCES items(id),
+    fecha DATE NOT NULL,
+    cantidad REAL NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_sales_loc_item_fecha
+    ON sales(location_id, item_id, fecha);
